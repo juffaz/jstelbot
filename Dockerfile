@@ -21,4 +21,9 @@ COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install --production
 COPY . .
 
+RUN groupadd -r puppeteer
+RUN useradd -r -g puppeteer -G audio,video puppeteer
+RUN chown -R puppeteer:puppeteer /app # change owner of app folder
+USER puppeteer
+
 CMD [ "node", "bot" ]
