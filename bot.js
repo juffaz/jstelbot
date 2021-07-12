@@ -7,7 +7,8 @@ const AUTH_DATA = {
   login:'',
   password:''
 }
-const PAGE_URL = 'https://play.grafana.org/d/000000012/grafana-play-home?orgId=1';
+const PAGE_URL_1 = 'https://play.grafana.org/d/000000012/grafana-play-home?orgId=1';
+const PAGE_URL = "http://elastic-cluster.service.prod-consul:5601/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:'75d22fe0-3ea0-11ea-acb8-0f867b688565',interval:auto,query:(language:kuery,query:''),sort:!(!('@timestamp',desc)))"
 
 const commandArgsMiddleware = () => (ctx, next) => {
   if (ctx.updateType === 'message' && ctx.updateSubType === 'text') {
@@ -59,8 +60,8 @@ const loginGrapha = async() => {
 
 const getScreenShot = async (url) => {
   const {browser, page} = await initBrowser();
-  await page.goto(url, {"waitUntil" : "domcontentloaded"});
-  await page.screenshot({ path: 'screenshot.png', fullPage: true })
+  await page.goto(url, {waitUntil : "networkidle0" });
+  await page.screenshot({ path: 'screenshot.png', fullPage: false })
   await browser.close();
 };
 
@@ -73,10 +74,9 @@ bot.help(ctx => {
 
 bot.command(async (ctx) => {
   await getScreenShot(PAGE_URL);
-  console.log(ctx.state.command);
+  console.log(ctx.state);
   ctx.replyWithPhoto({ source: 'screenshot.png' });
 });
 
 bot.launch()
-
 
