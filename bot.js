@@ -1,15 +1,8 @@
 const { Telegraf } = require('telegraf')
 require('dotenv').config()
-
 const bot = new Telegraf(process.env.TELETOK)
-
-bot.help(ctx => {
-    ctx.reply("The bot can perform the following commands\n - /start\n - /help\n - command")
-})
-bot.command((ctx) => ctx.replyWithPhoto({ source: 'screenshot.png' }))
-bot.launch()
-
 const puppeteer = require('puppeteer');
+
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -21,3 +14,11 @@ const puppeteer = require('puppeteer');
   await page.screenshot({ path: 'screenshot.png', fullPage: true })
   await browser.close()
 })()
+
+
+bot.help(ctx => {
+    ctx.reply("The bot can perform the following commands\n - /start\n - /help\n - command")
+})
+bot.command((ctx) => ctx.replyWithPhoto({ source: 'screenshot.png' }))
+bot.launch()
+
