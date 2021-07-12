@@ -36,6 +36,40 @@ const commandArgsMiddleware = () => (ctx, next) => {
   return next()
 }
 
+function parseDataFromCommand(){
+    let text = '/screen url=https://play.grafana.org/render/d-solo/000000012/grafana-play-home?orgId=1&from=startTime&to=endTime&panelId=11&width=1000&height=500&tz=Asia%2FBaku startTime=11.07.2021 endTime=12.07.2021'
+
+    const match = text.match(/^\/([^\s]+)\s?(.+)?/)
+    let args = [];
+    let command='';
+    if (match !== null) {
+        if (match[1]) {
+            command = match[1]
+        }
+        if (match[2]) {
+            let list = match[2].split(' ');
+            list.forEach(arg=>{
+                let params = arg.split(/=(.*)/);
+                args.push({
+                    key:[params[0]],
+                    value: params[1]
+                });
+            });
+        }
+    }
+
+    function replaceParams(args){
+        let result = args.filter(arg=>typeof arg.key !== 'url')[0].value;
+        console.log(result);
+        for (let index = 1; index < args.length; index++) {
+            let element = args[index];
+            let regex = new RegExp(element.key, 'gm')
+            result = result.replace(regex, element.value)
+        }
+        return result;
+    }
+}
+
 async function initBrowser() {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
