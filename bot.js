@@ -10,7 +10,7 @@ const puppeteer = require('puppeteer');
 })
   const page = await browser.newPage()
   await page.setViewport({ width: 1280, height: 800 })
-  await page.goto('https://www.nytimes.com/')
+  await page.goto('https://play.grafana.org/d/000000012/grafana-play-home?orgId=1')
   await page.screenshot({ path: 'screenshot.png', fullPage: true })
   await browser.close()
   
