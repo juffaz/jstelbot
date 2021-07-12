@@ -8,9 +8,11 @@ const AUTH_DATA = {
   password:''
 }
 const PAGE_URL_1 = 'https://play.grafana.org/d/000000012/grafana-play-home?orgId=1';
-const PAGE_URL = "http://elastic-cluster.service.prod-consul:5601/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:'75d22fe0-3ea0-11ea-acb8-0f867b688565',interval:auto,query:(language:kuery,query:''),sort:!(!('@timestamp',desc)))"
+const PAGE_URL = "http://elastic-cluster.service.prod-consul:5601/app/kibana#/discover/fd2713b0-4fdf-11eb-a7a6-93767fb22bf3?_g=(refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,to:now%2Fd))&_a=(columns:!(client-request.uri,client-response.body,client-response.status,client-request.method),filters:!(),index:'75d22fe0-3ea0-11ea-acb8-0f867b688565',interval:auto,query:(language:lucene,query:'NOT%20client-response.status:%20%5B200%20TO%20299%5D%20AND%20NOT%20client-response.status:%20%5B400%20TO%20499%5D'),sort:!(!('@timestamp',desc)))"
+const PAGE_URL_2 = "http://kibana.service.test-consul:5601/app/kibana#/discover?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:'3fdd5940-c36b-11eb-b0e8-a174df9056c9',interval:auto,query:(language:kuery,query:%22python-requests%2F2.25.1%22),sort:!())"
 
-const commandArgsMiddleware = () => (ctx, next) => {
+const commandArgsMiddleware = () => (ctx, next) =>{
+ console.log('middleware', ctx,);
   if (ctx.updateType === 'message' && ctx.updateSubType === 'text') {
     const text = ctx.update.message.text.toLowerCase()
     if (text.startsWith('/')) {
@@ -36,46 +38,12 @@ const commandArgsMiddleware = () => (ctx, next) => {
   return next()
 }
 
-function parseDataFromCommand(){
-    let text = '/screen url=https://play.grafana.org/render/d-solo/000000012/grafana-play-home?orgId=1&from=startTime&to=endTime&panelId=11&width=1000&height=500&tz=Asia%2FBaku startTime=11.07.2021 endTime=12.07.2021'
-
-    const match = text.match(/^\/([^\s]+)\s?(.+)?/)
-    let args = [];
-    let command='';
-    if (match !== null) {
-        if (match[1]) {
-            command = match[1]
-        }
-        if (match[2]) {
-            let list = match[2].split(' ');
-            list.forEach(arg=>{
-                let params = arg.split(/=(.*)/);
-                args.push({
-                    key:[params[0]],
-                    value: params[1]
-                });
-            });
-        }
-    }
-
-    function replaceParams(args){
-        let result = args.filter(arg=>typeof arg.key !== 'url')[0].value;
-        console.log(result);
-        for (let index = 1; index < args.length; index++) {
-            let element = args[index];
-            let regex = new RegExp(element.key, 'gm')
-            result = result.replace(regex, element.value)
-        }
-        return result;
-    }
-}
-
 async function initBrowser() {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
   const page = await browser.newPage()
-  await page.setViewport({ width: 1280, height: 800 })
+  await page.setViewport({ width: 1280, height: 1500 })
   return { browser, page };
 }
 
@@ -106,11 +74,10 @@ bot.help(ctx => {
     ctx.reply("The bot can perform the following commands\n - /start\n - /help\n - command")
 })
 
-bot.command(async (ctx) => {
+bot.command("screen", async (ctx) => {
   await getScreenShot(PAGE_URL);
-  console.log(ctx.state);
+  console.log(ctx, ctx.state);
   ctx.replyWithPhoto({ source: 'screenshot.png' });
 });
 
 bot.launch()
-
