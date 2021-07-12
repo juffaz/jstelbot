@@ -13,12 +13,15 @@ const puppeteer = require('puppeteer');
   await page.goto('https://www.nytimes.com/')
   await page.screenshot({ path: 'screenshot.png', fullPage: true })
   await browser.close()
-})()
-
-
-bot.help(ctx => {
+  
+  bot.help(ctx => {
     ctx.reply("The bot can perform the following commands\n - /start\n - /help\n - command")
-})
-bot.command((ctx) => ctx.replyWithPhoto({ source: 'screenshot.png' }))
-bot.launch()
+   })
+  bot.command((ctx) => ctx.replyWithPhoto({ source: 'screenshot.png' }))
+  bot.launch()
+  
+  })()
+
+
+
 
