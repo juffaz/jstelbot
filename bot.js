@@ -62,7 +62,7 @@ const getScreenShot = async (url) => {
   await page.goto(url, {"waitUntil" : "domcontentloaded"});
   await page.screenshot({ path: 'screenshot.png', fullPage: true })
   await browser.close();
-});
+};
 
 
 bot.use(commandArgsMiddleware());
