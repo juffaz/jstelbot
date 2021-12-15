@@ -10,6 +10,7 @@ const AUTH_DATA = {
 const PAGE_URL_1 = 'https://play.grafana.org/d/000000012/grafana-play-home?orgId=1';
 const PAGE_URL = "https://elasticsearch.bankrespublika.az/app/apm#/traces?rangeFrom=now-1h&rangeTo=now&refreshPaused=true&refreshInterval=0&page=0&pageSize=25&sortField=averageResponseTime&sortDirection=desc"
 //const PAGE_URL = "https://elasticsearch.bankrespublika.az/app/apm#/traces?rangeFrom=now-15m&rangeTo=now&refreshPaused=true&refreshInterval=0&page=0&pageSize=25&sortField=averageResponseTime&sortDirection=desc"
+
 const PAGE_URL_2 = "http://kibana.service.test-consul:5601/app/kibana#/discover?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:'3fdd5940-c36b-11eb-b0e8-a174df9056c9',interval:auto,query:(language:kuery,query:%22python-requests%2F2.25.1%22),sort:!())"
 
 const commandArgsMiddleware = () => (ctx, next) =>{
