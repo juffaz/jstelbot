@@ -9,7 +9,7 @@ const AUTH_DATA = {
 }
 const PAGE_URL_1 = 'https://play.grafana.org/d/000000012/grafana-play-home?orgId=1';
 const PAGE_URL = "https://elasticsearch.bankrespublika.az/app/apm#/traces?rangeFrom=now-1h&rangeTo=now&refreshPaused=true&refreshInterval=0&page=0&pageSize=25&sortField=averageResponseTime&sortDirection=desc"
-//const PAGE_URL = "http://elastic-cluster.service.prod-consul:5601/app/kibana#/discover/fd2713b0-4fdf-11eb-a7a6-93767fb22bf3?_g=(refreshInterval:(pause:!t,value:0),time:(from:now%2Fd,to:now%2Fd))&_a=(columns:!(client-request.uri,client-response.body,client-response.status,client-request.method),filters:!(),index:'75d22fe0-3ea0-11ea-acb8-0f867b688565',interval:auto,query:(language:lucene,query:'NOT%20client-response.status:%20%5B200%20TO%20299%5D%20AND%20NOT%20client-response.status:%20%5B400%20TO%20499%5D'),sort:!(!('@timestamp',desc)))"
+//const PAGE_URL = "https://elasticsearch.bankrespublika.az/app/apm#/traces?rangeFrom=now-15m&rangeTo=now&refreshPaused=true&refreshInterval=0&page=0&pageSize=25&sortField=averageResponseTime&sortDirection=desc"
 const PAGE_URL_2 = "http://kibana.service.test-consul:5601/app/kibana#/discover?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-15m,to:now))&_a=(columns:!(_source),filters:!(),index:'3fdd5940-c36b-11eb-b0e8-a174df9056c9',interval:auto,query:(language:kuery,query:%22python-requests%2F2.25.1%22),sort:!())"
 
 const commandArgsMiddleware = () => (ctx, next) =>{
