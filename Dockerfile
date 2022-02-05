@@ -1,4 +1,4 @@
-FROM node:12.18.1
+FROM node:12.22.1
 ENV NODE_ENV=production
 
 RUN  apt-get update \
